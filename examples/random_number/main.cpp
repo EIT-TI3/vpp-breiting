@@ -5,7 +5,6 @@
 int main() {
     time_t t = time(nullptr);
     srand((size_t) t);
-1
     size_t count = 0;
     printf("Please enter the amount of numbers:\n");
     scanf("%zu", &count);
