@@ -31,6 +31,7 @@ TEST(KomponenteTest, Output) {
   EXPECT_STREQ(sk, oss.str().c_str());
 }
 
+
 TEST(BohrungTest, ConstructorDefaultArguments) {
   Bohrung b0;
   ASSERT_EQ(0.0, b0.getX());
@@ -56,6 +57,7 @@ TEST(BohrungTest, Output) {
   b.output(oss);
   EXPECT_STREQ(sb, oss.str().c_str());
 }
+
 
 TEST(FraesungTest, Constructor) {
   Fraesung f0{0., 0., 0., -2.};
@@ -195,5 +197,3 @@ TEST(KomponentenListTest, InvalidIndex) {
     EXPECT_EQ(nullptr, kl.at(1));
     EXPECT_TRUE(-1 == kl.erase(1));  // ungueltiger Index
 }
-
-
