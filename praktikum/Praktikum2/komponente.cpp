@@ -1,50 +1,43 @@
-//
-// Created by deb on 04.05.22.
-//
-
-#include "komponente.h"
 #include <cmath>
+#include "komponente.h"
 
-Komponente::Komponente(double xPos, double yPos) : x{xPos}, y{yPos}, parent{nullptr} {}
+Komponente::Komponente(double xPos, double yPos) : x{xPos}, y{yPos} {}
 
-void Komponente::output(std::ostream &os) const {
-    os << "(" << getX() << ", " << getY() << ")";
+double Komponente::getXAbsolute() const
+{
+    auto res = getX();
+    if (getParent() != nullptr)
+        res += getParent()->getXAbsolute();
+    return res;
 }
 
-IKomponente const *Komponente::getParent() const {
+double Komponente::getYAbsolute() const
+{
+    auto res = getY();
+    if (getParent() != nullptr)
+        res += getParent()->getYAbsolute();
+    return res;
+}
+
+double Komponente::distance(IKomponente const *k) const
+{
+    if (k == nullptr)
+        return 0.0;
+    return sqrt(pow(this->getXAbsolute() - k->getXAbsolute(), 2) + 
+                pow(this->getYAbsolute() - k->getYAbsolute(), 2));
+}
+
+IKomponente const *Komponente::getParent() const
+{
     return parent;
 }
 
-void Komponente::setParent(const IKomponente *p) {
+void Komponente::setParent(IKomponente const *p)
+{
     parent = p;
 }
 
-double Komponente::calcTotalPath() const {
-    return 0;
-}
-
-double Komponente::getXAbsolute() const {
-    double XAbsolute = getX();
-
-    if(parent != nullptr) {
-        XAbsolute += parent->getXAbsolute();
-    }
-    return XAbsolute;
-}
-
-double Komponente::getYAbsolute() const {
-    double YAbsolute = getY();
-
-    if(parent != nullptr) {
-        YAbsolute += parent->getYAbsolute();
-    }
-    return YAbsolute;
-}
-
-double Komponente::distance(const IKomponente *k) const {
-    return sqrt(
-            pow(getXAbsolute() - k->getXAbsolute(), 2)
-            +
-            pow(getYAbsolute() - k->getYAbsolute(), 2)
-    );
+void Komponente::output(std::ostream &os) const
+{
+    os << "(" << getX() << ", " << getY() << ")";
 }

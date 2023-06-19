@@ -14,7 +14,7 @@ using std::cout;
 using std::endl;
 
 TEST(KomponenteTest, ConstructorDefaultArguments) {
-  Komponente k0;
+  Komponente k0{0.0, 0.0};
   ASSERT_EQ(0.0, k0.getX());
   ASSERT_EQ(0.0, k0.getY());
 
@@ -93,107 +93,43 @@ TEST(FraesungTest, Output) {
   EXPECT_STREQ(sf, oss.str().c_str());
 }
 
-TEST(KomponentenListTest, ConstructEntries) {
-  KomponentenList kl;
-  ASSERT_EQ(nullptr, kl.at(0));
-  ASSERT_EQ(nullptr, kl.begin());
+TEST(DeListTest, ConstructEntries) {
+  DeList kl;
+  ASSERT_EQ(nullptr, *kl.begin());
   EXPECT_TRUE(0 == kl.size());
   Bohrung b;
   kl.push_back(&b);
-  ASSERT_NE(nullptr, kl.at(0));
-  ASSERT_NE(nullptr, kl.begin());
+  ASSERT_NE(nullptr, *kl.begin());
   EXPECT_TRUE(1 == kl.size());
   Fraesung f{1, 0, 2, 3, 4};
   kl.push_back(&f);
-  EXPECT_NE(nullptr, kl.at(1));
-  EXPECT_EQ(nullptr, kl.at(2));
   EXPECT_TRUE(2 == kl.size());
+  auto it = Iterator(kl.begin());
+  while (it != kl.end()) {
+    ASSERT_NE(nullptr, *it);
+    ++it;
+  }
 }
 
-TEST(KomponentenListTest, DeleteEntries) {
-  KomponentenList kl;
+TEST(DeListTest, DeleteEntries) {
+  DeList kl;
   Bohrung b;
   Fraesung f{1, 0, 1, 1};
   kl.push_back(&b);
   kl.push_back(&f);
-  EXPECT_TRUE(0 == kl.erase(0));  // erstes Element geloescht
-  EXPECT_NE(nullptr, kl.at(0));
+  auto it = Iterator(kl.begin());
+  EXPECT_NE(nullptr, *(it = kl.erase(it)));
+  EXPECT_NE(nullptr, *kl.begin());
   EXPECT_TRUE(1 == kl.size());
-  EXPECT_TRUE(0 == kl.erase(0));  // letztes und einziges Element geloescht
+  EXPECT_TRUE(nullptr == *kl.erase(it));
   EXPECT_TRUE(0 == kl.size());
 }
 
-TEST(KomponentenListTest, DeleteEntriesAndAddAfterwards) {
-    KomponentenList kl;
-    Bohrung b;
-    Fraesung f{1, 0, 1, 1};
-    kl.push_back(&b);
-    kl.push_back(&f);
-    EXPECT_TRUE(0 == kl.erase(0));  // erstes Element geloescht
-    EXPECT_NE(nullptr, kl.at(0));
-    EXPECT_TRUE(1 == kl.size());
-    EXPECT_TRUE(0 == kl.erase(0));  // letztes und einziges Element geloescht
-    EXPECT_TRUE(0 == kl.size());
-    kl.push_back(&f);
-    EXPECT_NE(nullptr, kl.at(0));
-    EXPECT_TRUE(1 == kl.size());
-    EXPECT_EQ(nullptr, kl.at(1));
-}
-
-TEST(KomponentenListTest, DeleteEmptyList) {
-  KomponentenList kl;
+TEST(DeListTest, DeleteEmptyList) {
+  DeList kl;
+  auto it = Iterator(kl.begin());
   EXPECT_TRUE(0 == kl.size());
   EXPECT_TRUE(kl.begin() == kl.end());
-  EXPECT_EQ(nullptr, kl.begin());
-  EXPECT_TRUE(-1 == kl.erase(0));  // Element aus leerer Liste loeschen?
+  EXPECT_EQ(nullptr, *kl.begin());
+  EXPECT_TRUE(nullptr == *kl.erase(it));
 }
-
-TEST(KomponentenListTest, CheckChain) {
-    KomponentenList kl;
-    Bohrung b(3.2);
-    Fraesung f{1, 0, 1, 1};
-    kl.push_back(&b);
-    kl.push_back(&f);
-    KomponentenElement *first=kl.begin();
-    KomponentenElement *second=first->next;
-    KomponentenElement *third=second->next;
-
-    EXPECT_NE(nullptr, first);
-    EXPECT_EQ(nullptr, first->before);
-    EXPECT_NE(nullptr, second);
-    EXPECT_EQ(first, second->before);
-    EXPECT_EQ(nullptr, third);
-
-    EXPECT_TRUE(1 == kl.erase(1));  // letztes Element geloescht
-    EXPECT_NE(nullptr, first);
-    EXPECT_EQ(nullptr, first->before);
-    EXPECT_EQ(nullptr, first->next);
-
-    EXPECT_TRUE(0 == kl.erase(0));  // letztes==erstes Element geloescht
-    EXPECT_EQ(nullptr, kl.begin());
-    EXPECT_TRUE(kl.begin() == kl.end());
-}
-
-TEST(KomponentenListTest, InvalidIndex) {
-    KomponentenList kl;
-    Bohrung b(3.2);
-    Fraesung f{1, 0, 1, 1};
-    kl.push_back(&b);
-    kl.push_back(&f);
-
-
-    EXPECT_EQ(nullptr, kl.at(2));
-    EXPECT_TRUE(-1 == kl.erase(2));  // ungueltiger Index
-    EXPECT_EQ(nullptr, kl.at(-1));
-    EXPECT_TRUE(-1 == kl.erase(-1));  // ungueltiger Index
-    EXPECT_NE(nullptr, kl.at(1));
-    EXPECT_TRUE(1 == kl.erase(1));  // letztes Element geloescht
-    EXPECT_NE(nullptr, kl.at(0));
-    EXPECT_TRUE(0 == kl.erase(0));  // letztes==erstes Element geloescht
-    EXPECT_EQ(nullptr, kl.at(-1));
-    EXPECT_TRUE(-1 == kl.erase(-1));  // ungueltiger Index
-    EXPECT_EQ(nullptr, kl.at(1));
-    EXPECT_TRUE(-1 == kl.erase(1));  // ungueltiger Index
-}
-
-

@@ -1,9 +1,5 @@
-//
-// Created by deb on 05.05.22.
-//
-
-#ifndef PRAKTIKUM_IKOMPONENTENELEMENT_H
-#define PRAKTIKUM_IKOMPONENTENELEMENT_H
+#ifndef I_KOMPONENTE_ELEMENT_H
+#define I_KOMPONENTE_ELEMENT_H
 
 #include "IKomponente.h"
 
@@ -13,4 +9,5 @@ struct IKomponentenElement {
     IKomponentenElement* next;
 };
 
-#endif //PRAKTIKUM_IKOMPONENTENELEMENT_H
+
+#endif

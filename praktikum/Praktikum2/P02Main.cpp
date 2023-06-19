@@ -57,6 +57,5 @@ int main() {
     std::cout << "total Path w2: " << w2.calcTotalPath() << std::endl;
     std::cout << "Path length w2: " << w2.calcPathLength() << std::endl;
 
-
     return 0;
 }

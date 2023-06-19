@@ -1,22 +1,27 @@
-//
-// Created by deb on 04.05.22.
-//
-
 #include <cmath>
 #include "fraesung.h"
 
 Fraesung::Fraesung(double x, double y, double diam, double l, double a) :
-        Bohrung{x, y, diam},
-        length{l >= 0 ? l : 0},
-        angle{a}
-    {}
+    Bohrung{x, y, diam}, length(l >= 0.0 ? l : 0.0 ), angle{a} {}
+
+double Fraesung::calcTotalPath() const {
+    return 2*length;
+}
+
+double Fraesung::getLength() const {
+    return length;
+}
+
+double Fraesung::getAngle() const {
+    return angle;
+}
 
 double Fraesung::getEndX() const {
-    return getX() + (cos(getAngle()) * getLength());
+    return this->getX() + (length * cos(angle));
 }
 
 double Fraesung::getEndY() const {
-    return getY() + (sin(getAngle()) * getLength());
+    return this->getY() + (length * sin(angle));
 }
 
 void Fraesung::output(std::ostream &os) const {
@@ -24,8 +29,3 @@ void Fraesung::output(std::ostream &os) const {
     Komponente::output(os);
     os << " und Endpunkt: (" << getEndX() << ", " << getEndY() << "), Durchmesser: " << getDiameter();
 }
-
-double Fraesung::calcTotalPath() const {
-    return 2 * length;
-}
-
