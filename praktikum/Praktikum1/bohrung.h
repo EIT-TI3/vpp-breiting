@@ -9,9 +9,9 @@ class Bohrung: public Komponente {
         double diameter;
     public:
         explicit Bohrung(double x_ = 0.0, double y_ = 0.0, double diam = 6.0);
-        ~Bohrung() override = default;
+        ~Bohrung() {};
         double getDiameter() const;
-        void output(std::ostream& os) const override;
+        void output(std::ostream& os) const;
 };
 
 #endif

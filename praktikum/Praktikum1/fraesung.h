@@ -8,7 +8,7 @@ class Fraesung : public Bohrung {
         double length, angle;
     public:
         Fraesung(double x, double y, double diam, double l, double a = 0.0);
-        ~Fraesung() override = default;
+        ~Fraesung(){};
         double getLength() const;
         double getAngle() const;
         double getEndX() const;

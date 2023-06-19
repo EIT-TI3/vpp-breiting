@@ -3,7 +3,7 @@
 Komponente::Komponente(double xPos, double yPos) : x{xPos}, y{yPos} {}
 
 void Komponente::output(std::ostream &os) const {
-    os << "(" << x << ", " << y << ")";
+    os << "(" << getX() << ", " << getY() << ")";
 }
 
 double Komponente::getX() const {

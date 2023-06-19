@@ -13,11 +13,11 @@ double Fraesung::getAngle() const {
 }
 
 double Fraesung::getEndX() const {
-    return this->getX() + (length * cos(angle));
+    return this->getX() + (getLength() * cos(getAngle()));
 }
 
 double Fraesung::getEndY() const {
-    return this->getY() + (length * sin(angle));
+    return this->getY() + (getLength() * sin(getAngle()));
 }
 
 void Fraesung::output(std::ostream &os) const {
