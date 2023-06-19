@@ -1,17 +1,14 @@
-//
-// Created by deb on 05.05.22.
-//
-
-#ifndef PRAKTIKUM_TELEMENT_H
-#define PRAKTIKUM_TELEMENT_H
+#ifndef T_ELEMENT_H
+#define T_ELEMENT_H
 
 #include "IKomponente.h"
 
-template<typename T>
+template <typename T>
 struct TElement {
     T k;
     TElement* before;
     TElement* next;
 };
 
-#endif //PRAKTIKUM_TELEMENT_H
+
+#endif

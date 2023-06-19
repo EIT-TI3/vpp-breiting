@@ -1,48 +1,43 @@
-//
-// Created by deb on 06.05.22.
-//
-
-#ifndef PRAKTIKUM_WERKSTUECK_H
-#define PRAKTIKUM_WERKSTUECK_H
+#ifndef WERKSTUEK_H
+#define WERKSTUEK_H
 
 #include "komponente.h"
 #include "deList.h"
 
 class Werkstueck : public Komponente {
+    private:
+        double height, width;
+        bool pathIsOptimized;
+        DeList<IKomponente*> komponenten;
+        Iterator<IKomponente*> getNearest(IKomponente const* pk) const;
+    public:
+        Werkstueck(double xPos = 0.0, double yPos = 0.0, double h = 1, double w = 1);
+        ~Werkstueck() override = default;
 
-private:
-    double height;
-    double width;
-    bool pathIsOptimized;
-    DeList<IKomponente*> komponenten;
+        double getHeight() const;
+        double getWidth() const;
 
-    Iterator<IKomponente*> getNearest(IKomponente const* pk) const;
+        void add(IKomponente* k);
+        void remove(IKomponente const* k);
 
-protected:
+        IKomponente const* getChild(int i) const;
 
-public:
-    explicit Werkstueck(double xPos = 0.0, double yPos = 0.0, double h = 1, double w = 1);
-    ~Werkstueck() override = default;
-
-    double getHeight() const {
-        return height;
-    };
-    double getWidth() const {
-        return width;
-    };
-
-    void add(IKomponente* k);
-    void remove(IKomponente* k);
-
-    IKomponente const* getChild(int i) const;
-    double calcTotalPath() const override;
-    double calcPathLength() const;
-    void optimizePath();
-    void output(std::ostream& os) const override;
-
-    QJsonObject toJson() const override;
-
+        double calcTotalPath() const;
+        double calcPathLength() const;
+        void optimizePath();
+        
+        void output(std::ostream& os) const;
+        
 };
 
+inline double Werkstueck::getHeight() const
+{
+    return height;
+}
 
-#endif //PRAKTIKUM_WERKSTUECK_H
+inline double Werkstueck::getWidth() const
+{
+    return width;
+}
+
+#endif

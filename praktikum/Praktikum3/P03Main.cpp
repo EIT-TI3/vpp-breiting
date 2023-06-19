@@ -2,9 +2,7 @@
 #include "fraesung.h"
 #include "deList.h"
 #include "Werkstueck.h"
-#include "Serializer.h"
 #include <cmath>
-#include <fstream>
 
 int main() {
     Werkstueck w0{0, 0, 18, 25};
@@ -59,13 +57,5 @@ int main() {
     std::cout << "total Path w2: " << w2.calcTotalPath() << std::endl;
     std::cout << "Path length w2: " << w2.calcPathLength() << std::endl;
 
-    int return_code = 0;
-    Serializer serializer{w0};
-    try {
-        serializer.writeToJson("test.json");
-    } catch( const std::fstream::failure& ex ) {
-        std::cerr << "Failed to serialize w0 as a json file! Error: " << ex.what() << std::endl;
-        return_code = 1;
-    }
-    return return_code;
+    return 0;
 }
