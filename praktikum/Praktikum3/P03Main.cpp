@@ -1,8 +1,13 @@
 #include <iostream>
+#include <fstream>
+#include <cmath>
+
 #include "fraesung.h"
 #include "deList.h"
+#include "deList_impl.h"
 #include "Werkstueck.h"
-#include <cmath>
+#include "Serializer.h"
+
 
 int main() {
     Werkstueck w0{0, 0, 18, 25};
@@ -20,7 +25,7 @@ int main() {
     w0.add(&f1);
     w0.add(&f2);
     w0.add(&f3);
-
+    
     Werkstueck w1{6, 10, 7, 18};
     w0.add(&w1);
     Bohrung b5{1, 2, 6};
@@ -56,6 +61,14 @@ int main() {
     std::cout << "Path length w1: " << w1.calcPathLength() << std::endl;
     std::cout << "total Path w2: " << w2.calcTotalPath() << std::endl;
     std::cout << "Path length w2: " << w2.calcPathLength() << std::endl;
-
-    return 0;
+    
+    int ret = 0;
+    Serializer serializer{w0};
+    try {
+        serializer.writeToJson("/home/tasin/test.json");
+    } catch( const std::exception& ex ) {
+        std::cout << "Failed to serialize w0 as a json file! Error: " << ex.what() << std::endl;
+        ret = 1;
+    }
+    return ret;
 }

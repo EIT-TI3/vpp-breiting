@@ -27,6 +27,7 @@ class Werkstueck : public Komponente {
         void optimizePath();
         
         void output(std::ostream& os) const;
+        QJsonObject toJson() const override;
         
 };
 

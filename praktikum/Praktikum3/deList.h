@@ -20,11 +20,26 @@ class DeList {
         
         void clear();
         int size() const;
-        void push_back(IKomponente* k);
+
+        void push_back(T);
         
         Iterator<T> erase(Iterator<T> pos);
         Iterator<T> end() const;
         Iterator<T> begin() const;
+
+        void output(std::ostream& os) const {
+            os << "[";
+            for (auto element : *this) {
+                os << element << ", ";
+            }
+            os << "]" << std::endl;
+        }
 };
+
+template<typename T>
+inline std::ostream& operator<<(std::ostream& os, const DeList<T>& ik) {
+    ik.output(os);
+    return os;
+}
 
 #endif

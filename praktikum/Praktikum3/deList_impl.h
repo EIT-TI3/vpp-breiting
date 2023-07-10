@@ -6,13 +6,19 @@ template<typename T>
 DeList<T>::DeList() : counter{0}, first{nullptr} {}
 
 template<typename T>
+DeList<T>::DeList(DeList<T> const& rhs) : DeList() {
+    for(auto element : rhs)
+        push_back(element);
+}
+
+template<typename T>
 Iterator<T> DeList<T>::end() const {
     return Iterator<T>();
 }
 
 template<typename T>
 Iterator<T> DeList<T>::begin() const {
-    return Iterator(first);
+    return Iterator<T>(first);
 }
 
 template<typename T>
@@ -20,20 +26,13 @@ TElement<T>* DeList<T>::getElement(Iterator<T> it) const {
     auto curr = first;
     TElement<T>* found = nullptr;
     for (int i=0; i<counter; i++) {
-        if (curr->k == *it) {
+        if (Iterator{curr} == it) {
             found = curr;
             break;
         }
-        curr = curr ->next;
+        curr = curr->next;
     }
     return found;
-}
-
-template<typename T>
-DeList<T>::DeList(DeList<T> const& rhs) {
-    for(auto element : rhs) {
-        push_back(element);
-    }
 }
 
 template<typename T>
@@ -81,18 +80,19 @@ Iterator<T> DeList<T>::erase(Iterator<T> pos) {
     if (n == first) {
         first = next;
     } else {
-        if (before != nullptr)
-            before->next = next;
+        before->next = next;
     }
     if (next != nullptr)
         next->before = before;
     delete n;
     counter --;
-    return Iterator(next);
+    return Iterator<T>(next);
 }
 
 template<typename T>
-void DeList<T>::push_back(IKomponente *k) {
+void DeList<T>::push_back(T k) {
+    if (!k)
+        return;
     auto new_element = new TElement<T>;
     new_element->before = nullptr;
     new_element->k = k;

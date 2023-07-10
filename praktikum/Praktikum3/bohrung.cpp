@@ -7,3 +7,10 @@ void Bohrung::output(std::ostream &os) const {
     Komponente::output(os);
     os << ", Durchmesser: " << diameter;
 }
+
+QJsonObject Bohrung::toJson() const {
+    auto obj = Komponente::toJson();
+    obj["diameter"] = getDiameter();
+    obj["type"] = "Bohrung";
+    return obj;
+}

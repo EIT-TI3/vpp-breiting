@@ -21,6 +21,7 @@ public:
     IKomponente const *getParent() const;
     void setParent(IKomponente const *p);
     void output(std::ostream &os) const override;
+    QJsonObject toJson() const override;
 };
 
 inline double Komponente::calcTotalPath() const

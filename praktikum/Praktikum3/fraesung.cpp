@@ -17,3 +17,11 @@ void Fraesung::output(std::ostream &os) const {
     Komponente::output(os);
     os << " und Endpunkt: (" << getEndX() << ", " << getEndY() << "), Durchmesser: " << getDiameter();
 }
+
+QJsonObject Fraesung::toJson() const {
+    auto obj = Bohrung::toJson();
+    obj["angle"] = getAngle();
+    obj["length"] = getLength();
+    obj["type"] = "Fraesung";
+    return obj;
+}

@@ -1,7 +1,7 @@
 #include <cmath>
 #include "komponente.h"
 
-Komponente::Komponente(double xPos, double yPos) : x{xPos}, y{yPos} {}
+Komponente::Komponente(double xPos, double yPos): x{xPos >= 0 ? xPos : 0}, y{yPos >= 0 ? yPos : 0} {}
 
 double Komponente::getXAbsolute() const
 {
@@ -30,4 +30,14 @@ double Komponente::distance(IKomponente const *k) const
 void Komponente::output(std::ostream &os) const
 {
     os << "(" << getX() << ", " << getY() << ")";
+}
+
+QJsonObject Komponente::toJson() const
+{
+    return QJsonObject{
+        {"type", "Komponente"},
+        {"x", getX()},
+        {"y", getY()},
+        {"hasParent", getParent() != nullptr}
+    };
 }

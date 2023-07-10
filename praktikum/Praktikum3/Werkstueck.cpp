@@ -20,12 +20,12 @@ void Werkstueck::remove(IKomponente const *k)
 {
     if (k == nullptr)
         return;
-
     auto it = komponenten.begin();
     while (it != komponenten.end())
     {
         if (*it == k)
         {
+            (*it)->setParent(nullptr);
             komponenten.erase(it);
             pathIsOptimized = false;
             break;
@@ -36,6 +36,8 @@ void Werkstueck::remove(IKomponente const *k)
 
 IKomponente const *Werkstueck::getChild(int i) const
 {
+    if (i < 0)
+        return nullptr;
     auto it = komponenten.begin();
     for (int j = 0; j < i && it != komponenten.end(); j++)
     {
@@ -47,8 +49,8 @@ IKomponente const *Werkstueck::getChild(int i) const
 double Werkstueck::calcTotalPath() const
 {
     double path = calcPathLength();
-    for (auto k : komponenten)
-        path += k->calcTotalPath();
+    for (const auto& komponente : komponenten)
+        path += komponente->calcTotalPath();
     return path;
 }
 
@@ -56,7 +58,7 @@ double Werkstueck::calcPathLength() const
 {
     double path = 0.0;
     const IKomponente* last = this;
-    for (auto komponente : komponenten)
+    for (const auto& komponente : komponenten)
     {
         path += last->distance(komponente);
         last = komponente;
@@ -148,4 +150,19 @@ void Werkstueck::output(std::ostream &os) const
             os << std::endl;
         }
     }
+}
+
+QJsonObject Werkstueck::toJson() const {
+    auto components = QJsonArray{};
+    auto obj = Komponente::toJson();
+    for (const auto& komponente : komponenten) {
+        auto object = komponente->toJson();
+        components.append(object);
+    }
+    obj["components"] = components;
+    obj["height"] = getHeight();
+    obj["width"] = getWidth();
+    obj["pathIsOptimized"] = pathIsOptimized;
+    obj["type"] = "Werkstueck";
+    return obj;
 }

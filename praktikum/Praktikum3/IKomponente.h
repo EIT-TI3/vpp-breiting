@@ -2,6 +2,9 @@
 #define IKOMPONENTE_H 
 
 #include <iostream>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <typeinfo>
 
 class IKomponente {
     public:
@@ -20,11 +23,13 @@ class IKomponente {
         virtual void setParent(IKomponente const* p) = 0;
         
         virtual void output(std::ostream& os) const = 0;
-        
-        friend std::ostream& operator<<(std::ostream& os, const IKomponente& ik) {
-            ik.output(os);
-            return os;
-        }
+        virtual QJsonObject toJson() const = 0;
+
 };
+
+inline std::ostream& operator<<(std::ostream& os, const IKomponente& ik) {
+    ik.output(os);
+    return os;
+}
 
 #endif

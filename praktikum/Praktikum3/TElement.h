@@ -1,8 +1,6 @@
 #ifndef T_ELEMENT_H
 #define T_ELEMENT_H
 
-#include "IKomponente.h"
-
 template <typename T>
 struct TElement {
     T k;

@@ -12,6 +12,7 @@ class Bohrung: public Komponente {
         ~Bohrung() override = default;
         double getDiameter() const;
         void output(std::ostream& os) const override;
+        QJsonObject toJson() const override;
 };
 
 inline double Bohrung::getDiameter() const {

@@ -12,9 +12,12 @@ class Fraesung : public Bohrung {
         double calcTotalPath() const;
         double getLength() const;
         double getAngle() const;
-        void output(std::ostream& os) const;
+        
         double getEndX() const;
         double getEndY() const;
+
+        void output(std::ostream& os) const;
+        QJsonObject toJson() const override;
         
 };
 

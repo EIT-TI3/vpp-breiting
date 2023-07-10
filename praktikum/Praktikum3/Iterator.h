@@ -8,8 +8,8 @@ class Iterator {
     private:
         TElement<T>* curr;
     public:
-        explicit Iterator(TElement<T>* begin = nullptr);
-        virtual ~Iterator() = default;
+        explicit Iterator(TElement<T>* begin = nullptr) : curr{begin} {};
+        ~Iterator() = default;
 
         Iterator& operator++() {
             curr = curr->next;
@@ -24,10 +24,8 @@ class Iterator {
 
         T operator*() const {
             return curr->k;
+            // return curr ? curr->k : T{};
         }
-};
-
-template<typename T>
-Iterator<T>::Iterator(TElement<T>* begin): curr{begin} {}
+}; 
 
 #endif
